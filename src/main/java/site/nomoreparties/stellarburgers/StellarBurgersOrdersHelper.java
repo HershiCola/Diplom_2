@@ -8,7 +8,7 @@ import java.util.Random;
 
 import static io.restassured.RestAssured.given;
 
-public class StellarBurgersIngredientsAndOrdersHelper extends RestAssuredBaseSpec {
+public class StellarBurgersOrdersHelper extends RestAssuredBaseSpec {
 
     private List<String> ingredientsList;
     private Response orderResponse;

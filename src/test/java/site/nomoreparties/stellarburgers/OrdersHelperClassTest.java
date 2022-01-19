@@ -1,15 +1,16 @@
 package site.nomoreparties.stellarburgers;
 
+import io.qameta.allure.junit4.DisplayName;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
-public class IngredientsAndOrdersHelperClassTest {
+public class OrdersHelperClassTest {
 
     StellarBurgersUserHelper user = new StellarBurgersUserHelper();
-    StellarBurgersIngredientsAndOrdersHelper ordersHelper = new StellarBurgersIngredientsAndOrdersHelper();
+    StellarBurgersOrdersHelper ordersHelper = new StellarBurgersOrdersHelper();
 
     @Before
     public void setUp(){
@@ -18,6 +19,7 @@ public class IngredientsAndOrdersHelperClassTest {
     }
 
     @Test //тест покрывает случай заказа с ингредиентом
+    @DisplayName("Тест на возможность создания заказа с авторизацией")
     public void orderCreationAuthorized(){
         user.registerUser();
         user.setUserAccessToken();
@@ -31,10 +33,10 @@ public class IngredientsAndOrdersHelperClassTest {
     }
 
     @Test
+    @DisplayName("Тест на невозможность создания заказа без авторизации")
     //баг документации\сервиса
     //тест не проходит, так как заказ создается без аксес токена, достаточно валидного ингредиента
     public void orderCreationUnauthorized(){
-
         //отсутствие пользователя равно отсутствию аксес токена, пользователя можно не регистрировать
         ordersHelper.createOrderUnauthorized();
         ordersHelper.getOrderResponse().then().assertThat()
@@ -44,6 +46,7 @@ public class IngredientsAndOrdersHelperClassTest {
     }
 
     @Test
+    @DisplayName("Тест на попытку создания заказа без ингредиентов")
     public void orderCreationWithoutIngredient(){
         user.registerUser();
         user.setUserAccessToken();
@@ -55,6 +58,7 @@ public class IngredientsAndOrdersHelperClassTest {
     }
 
     @Test
+    @DisplayName("Тест на попытку создания заказа с некорректным хэшэм ингредиента")
     public void orderCreationWithInvalidIngredientHash(){
         user.registerUser();
         user.setUserAccessToken();
@@ -63,6 +67,7 @@ public class IngredientsAndOrdersHelperClassTest {
     }
 
     @Test
+    @DisplayName("Тест на получение списка заказов с авторизацией")
     public void getOrdersByAuthorizedUser(){
         user.registerUser();
         user.setUserAccessToken();
@@ -77,6 +82,7 @@ public class IngredientsAndOrdersHelperClassTest {
     }
 
     @Test
+    @DisplayName("Тест на получение списка заказа без авторизации")
     public void getOrdersByUnauthorizedUser(){
 
         ordersHelper.getOrderListWithoutAccessToken();
@@ -87,5 +93,4 @@ public class IngredientsAndOrdersHelperClassTest {
                 .and()
                 .statusCode(401);
     }
-
 }

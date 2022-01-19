@@ -110,7 +110,7 @@ public class UserHelperClassTest {
         user.getUserCredentialsFromServer();
         user.getUserResponse().then().assertThat()
                 .body("user.email", equalTo(user.getUserEmail()))
-                .and() //возвращаемые значения всегда в lowerCase а генерация полей происходит с разным регистром
+                .and()
                 .body("user.name", equalTo(user.getUserName()))
                 .and().statusCode(200);
     }
